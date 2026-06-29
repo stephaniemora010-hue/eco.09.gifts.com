@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCash Gifts - My Gifts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8edf5 100%);
+        }
+        
+        /* ============================================
+           HEADER
+        ============================================ */
+        header {
+            width: 100%;
+            max-width: 480px;
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+        }
+        
+        .logo-eco {
+            color: #0066ff;
+        }
+        
+        .logo-cash {
+            color: #ff0000;
+        }
+        
+        .logo-gift {
+            color: #ff6b00;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .notification-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        
+        .notification-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e74c3c;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logout-btn {
+            padding: 8px 16px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .logout-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        /* ============================================
+           MAIN CONTENT
+        ============================================ */
+        .main-content {
+            width: 100%;
+            max-width: 480px;
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ============================================
+           WELCOME CARD
+        ============================================ */
+        .welcome-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px 24px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .welcome-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b00, #e55d00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .welcome-info {
+            flex: 1;
+        }
+        
+        .welcome-greeting {
+            font-size: 14px;
+            color: #888;
+            font-weight: 500;
+        }
+        
+        .welcome-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-top: 2px;
+        }
+        
+        .welcome-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            font-size: 13px;
+            color: #27ae60;
+            font-weight: 500;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #27ae60;
+            animation: pulse-dot 2s infinite;
+        }
+        
+        @keyframes pulse-dot {
+            0%,
+            100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* ============================================
+           GIFT CLAIMED CARD
+        ============================================ */
+        .claimed-gift-card {
+            background: linear-gradient(135deg, #0066ff, #0044b3);
+            border-radius: 20px;
+            padding: 24px 24px 20px;
+            margin-bottom: 16px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 102, 255, 0.25);
+        }
+        
+        .claimed-gift-card::before {
+            content: '🎁';
+            position: absolute;
+            top: -20px;
+            right: 10px;
+            font-size: 100px;
+            opacity: 0.10;
+        }
+        
+        .claimed-gift-card .status-label {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .claimed-gift-card .gift-icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 6px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .claimed-gift-card .gift-name {
+            font-size: 24px;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .claimed-gift-card .gift-sub {
+            font-size: 14px;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .claimed-gift-card .gift-details {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .claimed-gift-card .gift-detail {
+            text-align: center;
+        }
+        
+        .claimed-gift-card .gift-detail .number {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .claimed-gift-card .gift-detail .label {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+        
+        /* ============================================
+           QUICK ACTIONS
+        ============================================ */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        
+        .quick-action {
+            text-align: center;
+            padding: 16px 8px;
+            background: white;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .quick-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-color: #ff6b00;
+        }
+        
+        .quick-action .icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .quick-action .label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        /* ============================================
+           GIFT HISTORY
+        ============================================ */
+        .history-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+            margin-bottom: 16px;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .history-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .history-title span {
+            color: #ff6b00;
+        }
+        
+        .view-all {
+            font-size: 13px;
+            color: #0066ff;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .history-list {
+            list-style: none;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .history-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .history-icon.claimed {
+            background: #e8f5e9;
+            color: #27ae60;
+        }
+        
+        .history-icon.pending {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        
+        .history-details .name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .history-details .date {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+        }
+        
+        .history-status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .history-status.claimed {
+            background: #e8f5e9;
+            color: #27ae60;
+        }
+        
+        .history-status.pending {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        
+        .history-status.processing {
+            background: #e3f2fd;
+            color: #0066ff;
+        }
+        
+        /* ============================================
+           BOTTOM NAV
+        ============================================ */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            border-radius: 16px;
+            padding: 10px 12px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-item {
+            text-align: center;
+            color: #999;
+            font-size: 11px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 4px 0;
+        }
+        
+        .nav-item.active {
+            color: #ff6b00;
+        }
+        
+        .nav-item .icon {
+            font-size: 22px;
+            display: block;
+            margin-bottom: 1px;
+        }
+        
+        /* ============================================
+           FOOTER
+        ============================================ */
+        footer {
+            padding: 16px;
+            color: #aaa;
+            font-size: 12px;
+            text-align: center;
+            width: 100%;
+            max-width: 480px;
+        }
+        
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .quick-actions {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+            }
+            .quick-action {
+                padding: 12px 6px;
+            }
+            .quick-action .icon {
+                font-size: 22px;
+            }
+            .quick-action .label {
+                font-size: 10px;
+            }
+            .welcome-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+            .welcome-name {
+                font-size: 17px;
+            }
+            .claimed-gift-card .gift-name {
+                font-size: 20px;
+            }
+            .claimed-gift-card .gift-details {
+                gap: 16px;
+            }
+        }
+        
+        @media (max-width: 380px) {
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .history-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============================================
+    HEADER
+    ============================================ -->
+    <header>
+        <div class="logo">
+            <span class="logo-eco">Eco</span><span class="logo-cash">Cash</span>
+            <span class="logo-gift">Gifts</span>
+        </div>
+        <div class="header-actions">
+            <button class="notification-btn" onclick="showNotification()">
+                🔔
+                <span class="notification-badge">2</span>
+            </button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <!-- ============================================
+    MAIN CONTENT
+    ============================================ -->
+    <div class="main-content">
+
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <div class="welcome-avatar" id="userAvatar">👤</div>
+            <div class="welcome-info">
+                <div class="welcome-greeting">🎁 Welcome back,</div>
+                <div class="welcome-name" id="userName">John Doe</div>
+                <div class="welcome-status">
+                    <span class="status-dot"></span>
+                    <span>Gift Member</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Claimed Gift Card -->
+        <div class="claimed-gift-card">
+            <div class="status-label">🎉 Gift Claimed</div>
+            <span class="gift-icon" id="giftIcon">🎁</span>
+            <div class="gift-name" id="giftName">Airtime</div>
+            <div class="gift-sub">Your gift has been successfully claimed</div>
+            <div class="gift-details">
+                <div class="gift-detail">
+                    <div class="number" id="giftStatus">✅ Active</div>
+                    <div class="label">Status</div>
+                </div>
+                <div class="gift-detail">
+                    <div class="number" id="giftDate">Today</div>
+                    <div class="label">Claimed On</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <div class="quick-action" onclick="window.location.href='index.html'">
+                <span class="icon">🎁</span>
+                <span class="label">New Gift</span>
+            </div>
+            <div class="quick-action" onclick="alert('Share your gift with friends!')">
+                <span class="icon">📤</span>
+                <span class="label">Share</span>
+            </div>
+            <div class="quick-action" onclick="alert('View your gift details')">
+                <span class="icon">📋</span>
+                <span class="label">Details</span>
+            </div>
+            <div class="quick-action" onclick="alert('Help & Support coming soon!')">
+                <span class="icon">❓</span>
+                <span class="label">Help</span>
+            </div>
+        </div>
+
+        <!-- Gift History -->
+        <div class="history-card">
+            <div class="history-header">
+                <span class="history-title">📜 Gift <span>History</span></span>
+                <a class="view-all" onclick="alert('View all gifts coming soon!')">View All →</a>
+            </div>
+            <ul class="history-list">
+
+                <!-- History Item 1 -->
+                <li class="history-item">
+                    <div class="history-info">
+                        <div class="history-icon claimed">📱</div>
+                        <div class="history-details">
+                            <div class="name">Airtime</div>
+                            <div class="date">Today, 3:30 PM</div>
+                        </div>
+                    </div>
+                    <span class="history-status claimed">Claimed ✅</span>
+                </li>
+
+                <!-- History Item 2 -->
+                <li class="history-item">
+                    <div class="history-info">
+                        <div class="history-icon pending">🌐</div>
+                        <div class="history-details">
+                            <div class="name">Data Bundle</div>
+                            <div class="date">Yesterday, 10:15 AM</div>
+                        </div>
+                    </div>
+                    <span class="history-status pending">Pending ⏳</span>
+                </li>
+
+                <!-- History Item 3 -->
+                <li class="history-item">
+                    <div class="history-info">
+                        <div class="history-icon claimed">🛍️</div>
+                        <div class="history-details">
+                            <div class="name">Shopping Voucher</div>
+                            <div class="date">Jun 25, 2026</div>
+                        </div>
+                    </div>
+                    <span class="history-status claimed">Claimed ✅</span>
+                </li>
+
+                <!-- History Item 4 -->
+                <li class="history-item">
+                    <div class="history-info">
+                        <div class="history-icon claimed">💰</div>
+                        <div class="history-details">
+                            <div class="name">Cash Reward</div>
+                            <div class="date">Jun 20, 2026</div>
+                        </div>
+                    </div>
+                    <span class="history-status processing">Processing 🔄</span>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <!-- ============================================
+    BOTTOM NAV
+    ============================================ -->
+    <div class="bottom-nav">
+        <div class="nav-item" onclick="window.location.href='index.html'">
+            <span class="icon">🏠</span>
+            Home
+        </div>
+        <div class="nav-item" onclick="window.location.href='claim.html'">
+            <span class="icon">🎁</span>
+            Claim
+        </div>
+        <div class="nav-item" onclick="window.location.href='login.html'">
+            <span class="icon">🔐</span>
+            Login
+        </div>
+        <div class="nav-item active">
+            <span class="icon">📊</span>
+            My Gifts
+        </div>
+    </div>
+
+    <!-- ============================================
+    FOOTER
+    ============================================ -->
+    <footer>© 2026 EcoCash Gifts • Share the joy 🎁</footer>
+
+    <!-- ============================================
+    JAVASCRIPT
+    ============================================ -->
+    <script>
+        // ============================================
+        // GET USER DATA FROM LOCALSTORAGE
+        // ============================================
+        const fullName = localStorage.getItem('fullName') || 'John Doe';
+        const phone = localStorage.getItem('phone') || '771234567';
+        const giftName = localStorage.getItem('giftName') || 'Gift';
+        const giftIcon = localStorage.getItem('giftIcon') || '🎁';
+
+        // Display user name
+        document.getElementById('userName').textContent = fullName;
+
+        // Set avatar
+        document.getElementById('userAvatar').textContent = fullName.charAt(0).toUpperCase();
+
+        // Display gift
+        document.getElementById('giftIcon').textContent = giftIcon;
+        document.getElementById('giftName').textContent = giftName;
+
+        // ============================================
+        // NOTIFICATION
+        // ============================================
+        function showNotification() {
+            alert('📬 Notifications\n\n1. Your gift has been claimed successfully!\n2. New gifts available! Check them out.');
+        }
+
+        // ============================================
+        // LOGOUT FUNCTION
+        // ============================================
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear session data
+                localStorage.removeItem('verified');
+                localStorage.removeItem('otpVerified');
+                localStorage.removeItem('fullName');
+                localStorage.removeItem('email');
+                localStorage.removeItem('phone');
+                localStorage.removeItem('giftName');
+                localStorage.removeItem('giftIcon');
+
+                // Redirect to login
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ============================================
+        // KEYBOARD SHORTCUTS
+        // ============================================
+        document.addEventListener('keydown', (e) => {
+            // Ctrl + L = Logout
+            if (e.ctrlKey && e.key === 'l') {
+                e.preventDefault();
+                logout();
+            }
+            // Escape = Go to home
+            if (e.key === 'Escape') {
+                window.location.href = 'index.html';
+            }
+        });
+
+        console.log('🎁 EcoCash Gifts - Dashboard Loaded');
+        console.log('👤 User:', fullName);
+        console.log('📱 Phone:', phone);
+        console.log('🎁 Gift:', giftName);
+    </script>
+
+</body>
+
+</html>
