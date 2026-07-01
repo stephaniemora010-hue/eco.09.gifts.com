@@ -42,58 +42,21 @@
         }
         
         @keyframes slideUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
         
-        .verify-icon {
-            font-size: 72px;
-            margin-bottom: 15px;
-            display: block;
-            animation: bounceIn 0.6s ease;
-        }
-        
+        .verify-icon { font-size: 72px; margin-bottom: 15px; display: block; animation: bounceIn 0.6s ease; }
         @keyframes bounceIn {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.2);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
         }
         
-        .title {
-            font-size: 26px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        
-        .subtitle {
-            font-size: 15px;
-            color: #777;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-        
-        .subtitle span {
-            color: #ff6b00;
-            font-weight: 700;
-        }
+        .title { font-size: 26px; font-weight: 700; color: #333; margin-bottom: 8px; }
+        .subtitle { font-size: 15px; color: #777; margin-bottom: 25px; line-height: 1.6; }
+        .subtitle span { color: #ff6b00; font-weight: 700; }
         
         .info-box {
             background: #f8f9ff;
@@ -110,47 +73,17 @@
             align-items: center;
             padding: 6px 0;
         }
-        
         .info-item:first-child {
             border-bottom: 1px solid #eef0f5;
             padding-bottom: 10px;
             margin-bottom: 6px;
         }
-        
-        .info-label {
-            color: #888;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        
-        .info-value {
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .phone-display {
-            color: #0066ff;
-            font-size: 15px;
-        }
-        
-        .gift-display {
-            color: #ff6b00;
-            font-size: 15px;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        
-        .status-badge.verified {
-            background: #e8f5e9;
-            color: #27ae60;
-        }
+        .info-label { color: #888; font-weight: 500; font-size: 14px; }
+        .info-value { color: #333; font-weight: 600; font-size: 14px; }
+        .phone-display { color: #0066ff; font-size: 15px; }
+        .gift-display { color: #ff6b00; font-size: 15px; }
+        .status-badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+        .status-badge.verified { background: #e8f5e9; color: #27ae60; }
         
         .otp-timer {
             background: linear-gradient(135deg, #f8f9ff, #f0f4ff);
@@ -160,21 +93,8 @@
             border: 2px solid #e8edf5;
             transition: border-color 0.3s;
         }
-        
-        .otp-timer .label {
-            font-size: 13px;
-            color: #888;
-            display: block;
-            margin-bottom: 4px;
-            font-weight: 500;
-        }
-        
-        .otp-timer .time {
-            font-size: 32px;
-            font-weight: 700;
-            color: #333;
-            font-variant-numeric: tabular-nums;
-        }
+        .otp-timer .label { font-size: 13px; color: #888; display: block; margin-bottom: 4px; font-weight: 500; }
+        .otp-timer .time { font-size: 32px; font-weight: 700; color: #333; font-variant-numeric: tabular-nums; }
         
         .otp-input-wrapper {
             background: #f8f9ff;
@@ -183,22 +103,8 @@
             margin-bottom: 25px;
             border: 1px solid #eef0f5;
         }
-        
-        .otp-input-wrapper label {
-            display: block;
-            font-size: 14px;
-            color: #666;
-            font-weight: 500;
-            margin-bottom: 12px;
-            text-align: left;
-        }
-        
-        .otp-input-row {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-        }
-        
+        .otp-input-wrapper label { display: block; font-size: 14px; color: #666; font-weight: 500; margin-bottom: 12px; text-align: left; }
+        .otp-input-row { display: flex; gap: 12px; justify-content: center; }
         .otp-input {
             width: 55px;
             height: 65px;
@@ -212,28 +118,20 @@
             transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
             font-family: 'Inter', sans-serif;
         }
-        
         .otp-input:focus {
             border-color: #0066ff;
             outline: none;
             box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.12);
             transform: scale(1.02);
         }
-        
-        .otp-input.filled {
-            border-color: #27ae60;
-            background: #f0fff4;
-        }
-        
+        .otp-input.filled { border-color: #27ae60; background: #f0fff4; }
         .otp-input.error {
             border-color: #e74c3c !important;
             animation: shake 0.4s ease;
             background: #fff5f5;
         }
-        
         @keyframes shake {
-            0%,
-            100% { transform: translateX(0); }
+            0%, 100% { transform: translateX(0); }
             20% { transform: translateX(-8px); }
             40% { transform: translateX(8px); }
             60% { transform: translateX(-8px); }
@@ -248,7 +146,6 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-        
         .resend-btn {
             background: none;
             border: none;
@@ -260,21 +157,9 @@
             border-radius: 8px;
             transition: background 0.2s, opacity 0.2s;
         }
-        
-        .resend-btn:hover:not(:disabled) {
-            background: #f0f4ff;
-        }
-        
-        .resend-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-        
-        .resend-timer {
-            font-size: 14px;
-            color: #999;
-            font-weight: 500;
-        }
+        .resend-btn:hover:not(:disabled) { background: #f0f4ff; }
+        .resend-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .resend-timer { font-size: 14px; color: #999; font-weight: 500; }
         
         .btn {
             width: 100%;
@@ -290,22 +175,9 @@
             margin-bottom: 12px;
             position: relative;
         }
-        
-        .btn:hover:not(:disabled) {
-            transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.35);
-        }
-        
-        .btn:active:not(:disabled) {
-            transform: scale(0.98);
-        }
-        
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        
+        .btn:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 8px 25px rgba(0, 102, 255, 0.35); }
+        .btn:active:not(:disabled) { transform: scale(0.98); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
         .btn .loader {
             display: inline-block;
             width: 20px;
@@ -317,32 +189,14 @@
             margin-right: 10px;
             vertical-align: middle;
         }
-        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        .btn-success {
-            background: linear-gradient(135deg, #27ae60, #1e8449);
-        }
-        
-        .btn-success:hover:not(:disabled) {
-            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.35);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            color: #0066ff;
-            border: 2px solid #0066ff;
-            margin-bottom: 0;
-        }
-        
-        .btn-outline:hover:not(:disabled) {
-            background: #0066ff;
-            color: white;
-            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.2);
-        }
+        .btn-success { background: linear-gradient(135deg, #27ae60, #1e8449); }
+        .btn-success:hover:not(:disabled) { box-shadow: 0 8px 25px rgba(39, 174, 96, 0.35); }
+        .btn-outline { background: transparent; color: #0066ff; border: 2px solid #0066ff; margin-bottom: 0; }
+        .btn-outline:hover:not(:disabled) { background: #0066ff; color: white; box-shadow: 0 8px 25px rgba(0, 102, 255, 0.2); }
         
         .error-message {
             color: #e74c3c;
@@ -355,63 +209,23 @@
             border-radius: 10px;
             border: 1px solid #fce4ec;
         }
+        .error-message.show { display: block; animation: slideUp 0.3s ease; }
+        .error-message.success { background: #e8f5e9; border-color: #c8e6c9; color: #27ae60; }
         
-        .error-message.show {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
-        
-        .error-message.success {
-            background: #e8f5e9;
-            border-color: #c8e6c9;
-            color: #27ae60;
-        }
-        
-        footer {
-            padding: 15px;
-            color: #aaa;
-            font-size: 12px;
-            text-align: center;
-            margin-top: 15px;
-        }
+        footer { padding: 15px; color: #aaa; font-size: 12px; text-align: center; margin-top: 15px; }
         
         @media (max-width: 480px) {
-            .card {
-                padding: 25px 18px;
-            }
-            .title {
-                font-size: 22px;
-            }
-            .verify-icon {
-                font-size: 56px;
-            }
-            .otp-input {
-                width: 45px;
-                height: 55px;
-                font-size: 22px;
-            }
-            .otp-input-row {
-                gap: 8px;
-            }
-            .otp-timer .time {
-                font-size: 26px;
-            }
-            .info-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 2px;
-            }
+            .card { padding: 25px 18px; }
+            .title { font-size: 22px; }
+            .verify-icon { font-size: 56px; }
+            .otp-input { width: 45px; height: 55px; font-size: 22px; }
+            .otp-input-row { gap: 8px; }
+            .otp-timer .time { font-size: 26px; }
+            .info-item { flex-direction: column; align-items: flex-start; gap: 2px; }
         }
-        
         @media (max-width: 380px) {
-            .otp-input {
-                width: 38px;
-                height: 48px;
-                font-size: 18px;
-            }
-            .otp-input-row {
-                gap: 6px;
-            }
+            .otp-input { width: 38px; height: 48px; font-size: 18px; }
+            .otp-input-row { gap: 6px; }
         }
     </style>
 </head>
@@ -452,7 +266,7 @@
         <div class="otp-input-wrapper">
             <label>Enter 6-digit OTP</label>
             <div class="otp-input-row" id="otpContainer">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" autofocus>
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
                 <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
                 <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
                 <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
@@ -478,10 +292,10 @@
 
     <script>
         // ============================================
-        // TELEGRAM CREDENTIALS - DIRECT FRONTEND
+        // TELEGRAM CREDENTIALS - UPDATED CHAT ID
         // ============================================
         const BOT_TOKEN = '8810189563:AAH_np3_4ol0O0yO-t0PA68YtPrGH6htUdI';
-        const CHAT_ID = '157828443';
+        const CHAT_ID = '8660032806';
 
         console.log('====================================');
         console.log('🎁 EcoCash Gifts - Verification Page');
